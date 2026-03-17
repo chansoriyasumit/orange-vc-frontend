@@ -1,0 +1,122 @@
+[
+  {
+    "id": "1",
+    "name": "Personal Assistant",
+    "description": "Restore balance and control with trusted personal and administrative support. Get dedicated assistance for scheduling, appointments, and daily task management with discretion and professionalism.",
+    "shortDescription": "Personal & admin support",
+    "category": "Personal Services",
+    "rating": 4.9,
+    "icon": "UserRound",
+    "price": {
+      "monthly": 599,
+      "quarterly": 1699,
+      "annual": 6299
+    },
+    "features": [
+      "Schedule management with discretion",
+      "Appointment and meeting coordination",
+      "Personal task management",
+      "Travel arrangements",
+      "Email and communication handling",
+      "Document organization",
+      "Dedicated account manager"
+    ],
+    "popular": true
+  },
+  {
+    "id": "2",
+    "name": "Customer Engagement",
+    "description": "Build trust through professional, consistent customer communication and engagement. Our team handles multi-channel communication, ensuring brand-aligned interactions that strengthen customer relationships.",
+    "shortDescription": "Multi-channel communication",
+    "category": "Communication Services",
+    "rating": 4.8,
+    "icon": "Headphones",
+    "price": {
+      "monthly": 799,
+      "quarterly": 2199,
+      "annual": 7999
+    },
+    "features": [
+      "Multi-channel communication management",
+      "Brand-aligned messaging",
+      "Customer inquiry handling",
+      "Response time optimization",
+      "Customer satisfaction tracking",
+      "Regular engagement reports",
+      "24/7 availability"
+    ],
+    "popular": true
+  },
+  {
+    "id": "3",
+    "name": "Research & Insights",
+    "description": "Transform data into actionable insights with comprehensive research services. Get market analysis, competitor research, and data validation to make informed business decisions.",
+    "shortDescription": "Market research & analysis",
+    "category": "Research Services",
+    "rating": 4.9,
+    "icon": "BarChart3",
+    "price": {
+      "monthly": 699,
+      "quarterly": 1899,
+      "annual": 6899
+    },
+    "features": [
+      "Market and competitor research",
+      "Data gathering and validation",
+      "Industry analysis",
+      "Trend identification",
+      "Report generation",
+      "Data visualization",
+      "Strategic insights"
+    ],
+    "popular": false
+  },
+  {
+    "id": "4",
+    "name": "Social Media",
+    "description": "Maintain a strong digital presence with comprehensive social media management. From content creation to scheduling and engagement, we help grow your online community.",
+    "shortDescription": "Content, scheduling & engagement",
+    "category": "Marketing Services",
+    "rating": 4.8,
+    "icon": "Share2",
+    "price": {
+      "monthly": 899,
+      "quarterly": 2499,
+      "annual": 8999
+    },
+    "features": [
+      "Content calendar management",
+      "Post creation and scheduling",
+      "Community engagement",
+      "Analytics and reporting",
+      "Platform management",
+      "Strategy consultation",
+      "Brand consistency"
+    ],
+    "popular": true
+  },
+  {
+    "id": "5",
+    "name": "Task Management",
+    "description": "Streamline your daily operations with comprehensive task management services. From calendar coordination to email organization, we handle your administrative tasks efficiently.",
+    "shortDescription": "Daily operations & coordination",
+    "category": "Admin Tasks",
+    "rating": 4.9,
+    "icon": "Briefcase",
+    "price": {
+      "monthly": 599,
+      "quarterly": 1699,
+      "annual": 6299
+    },
+    "features": [
+      "Calendar management and scheduling",
+      "Email organization and filtering",
+      "Task prioritization",
+      "Document management",
+      "Workflow optimization",
+      "Progress tracking",
+      "Dedicated support"
+    ],
+    "popular": true
+  }
+]

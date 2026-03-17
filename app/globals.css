@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* OrangeVC Brand Colors */
+    --tomato: 14 91% 60%; /* #F65E3C */
+    --tomato-600: 14 91% 50%;
+    --pale-dogwood: 12 81% 88%; /* #FAD8C6 */
+    --white-smoke: 45 22% 96%; /* #F7F6F3 */
+    --platinum: 270 13% 88%; /* #E0DDE3 */
+    --rich-black: 177 100% 4%; /* #001514 */
+    
+    /* Semantic Colors based on brand */
+    --background: #FFFDF7; /* Off White */
+    --foreground: 177 100% 4%; /* Rich Black */
+    --card: 0 0% 100%;
+    --card-foreground: 177 100% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 177 100% 4%;
+    --primary: 14 91% 60%; /* Tomato */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 12 81% 88%; /* Pale Dogwood */
+    --secondary-foreground: 177 100% 4%;
+    --muted: 270 13% 88%; /* Platinum */
+    --muted-foreground: 177 100% 40%;
+    --accent: 12 81% 88%;
+    --accent-foreground: 177 100% 4%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 270 13% 88%;
+    --input: 270 13% 88%;
+    --ring: 14 91% 60%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 177 100% 4%;
+    --foreground: 45 22% 96%;
+    --card: 177 100% 8%;
+    --card-foreground: 45 22% 96%;
+    --popover: 177 100% 8%;
+    --popover-foreground: 45 22% 96%;
+    --primary: 14 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 177 100% 12%;
+    --secondary-foreground: 45 22% 96%;
+    --muted: 177 100% 12%;
+    --muted-foreground: 45 22% 70%;
+    --accent: 177 100% 12%;
+    --accent-foreground: 45 22% 96%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 45 22% 96%;
+    --border: 177 100% 12%;
+    --input: 177 100% 12%;
+    --ring: 14 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+}
