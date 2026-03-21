@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 interface SectionHeadingProps {
   icon: LucideIcon;
   iconLabel: string;
-  title: string;
+  title: ReactNode;
   subtitle?: string;
   centered?: boolean;
   className?: string;

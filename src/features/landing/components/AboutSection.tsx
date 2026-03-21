@@ -2,6 +2,7 @@
 
 import { DotBackground } from "@/src/shared/components/backgrounds/GridBackground";
 import { TestimonialsSection } from "./TestimonialSection";
+import type { AboutUsSectionData } from "@/src/shared/types/home-page";
 import { User, Users, Globe, Shield } from "lucide-react";
 import { SectionHeading } from "@/src/shared/components/ui/SectionHeading";
 import { useState } from "react";
@@ -30,7 +31,11 @@ const features = [
   },
 ];
 
-export function AboutSection() {
+export interface AboutSectionProps {
+  aboutUs: AboutUsSectionData;
+}
+
+export function AboutSection({ aboutUs }: AboutSectionProps) {
   const [selectedFeature, setSelectedFeature] = useState(features[0]);
 
   return (
@@ -42,8 +47,13 @@ export function AboutSection() {
               <SectionHeading
                 icon={User}
                 iconLabel="About Us"
-                title="A Trusted Partner in Productivity"
-                subtitle="At Orange Virtual Connect, we believe time is your most valuable asset — and we're here to help you make the most of it."
+                title={
+                  <>
+                    {aboutUs.headingPart1}{" "}
+                    <span className="text-tomato">{aboutUs.headingPart2}</span>
+                  </>
+                }
+                subtitle={aboutUs.description}
                 centered={false}
               />
 

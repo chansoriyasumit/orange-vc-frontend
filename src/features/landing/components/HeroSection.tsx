@@ -1,6 +1,7 @@
 "use client";
 
 import { AppButton } from "@/src/shared/components/ui/AppButton";
+import type { HeroSectionData } from "@/src/shared/types/home-page";
 import {
   Users,
   Star,
@@ -16,7 +17,11 @@ import { motion } from "motion/react";
 import { Radar } from "@/src/shared/components/ui/Radar";
 import { IconContainer } from "@/src/shared/components/ui/IconContainer";
 
-export function HeroSection() {
+export interface HeroSectionProps {
+  hero: HeroSectionData;
+}
+
+export function HeroSection({ hero }: HeroSectionProps) {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Grid Background Overlay */}
@@ -43,7 +48,7 @@ export function HeroSection() {
             >
               <Sparkles className="w-4 h-4 text-tomato animate-pulse" />
               <span className="text-sm text-rich-black font-medium">
-                Over 12 Years of Professional Experience
+                {hero.badgeText}
               </span>
             </motion.div>
 
@@ -54,10 +59,10 @@ export function HeroSection() {
               transition={{ delay: 0.3, duration: 0.6 }}
             >
               <h1 className="font-heading text-5xl lg:text-7xl font-bold tracking-tighter text-rich-black leading-tight">
-                Free Your Time -
+                {hero.headingPart1}
                 <span className="relative inline-block">
                   <span className="relative z-10 text-tomato">
-                    Orange Virtual Connect
+                    {hero.headingPart2}
                   </span>
                   {/* <motion.span
                     className="absolute bottom-2 left-0 w-full h-3 bg-tomato/20 -z-0"
@@ -68,9 +73,7 @@ export function HeroSection() {
                 </span>
               </h1>
               <p className="text-lg text-rich-black/80 leading-relaxed max-w-xl">
-                Running a business or managing a busy professional life doesn't
-                have to be overwhelming. We take care of your daily to-dos — so
-                you can focus on what truly matters.
+                {hero.description}
               </p>
             </motion.div>
 
@@ -84,14 +87,18 @@ export function HeroSection() {
               <AppButton
                 size="lg"
                 variant="primary"
-                href="/services"
+                href={hero.primaryButtonLink}
                 className="group"
               >
-                Explore Services
+                {hero.primaryButtonText}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </AppButton>
-              <AppButton size="lg" variant="outline" href="/pricing">
-                Subscribe Now
+              <AppButton
+                size="lg"
+                variant="outline"
+                href={hero.secondaryButtonLink}
+              >
+                {hero.secondaryButtonText}
               </AppButton>
             </motion.div>
 

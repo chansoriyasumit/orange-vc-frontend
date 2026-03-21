@@ -1,8 +1,15 @@
+"use client";
+
 import { DotBackground } from "@/src/shared/components/backgrounds/GridBackground";
 import { SectionHeading } from "@/src/shared/components/ui/SectionHeading";
+import type { WhyChooseUsSectionData } from "@/src/shared/types/home-page";
 import { User } from "lucide-react";
 
-export function WhyChooseUsSection() {
+export interface WhyChooseUsSectionProps {
+  whyChooseUs: WhyChooseUsSectionData;
+}
+
+export function WhyChooseUsSection({ whyChooseUs }: WhyChooseUsSectionProps) {
   return (
     <DotBackground className="bg-">
       <section id="why-choose-us" className="py-24">
@@ -10,8 +17,8 @@ export function WhyChooseUsSection() {
           <SectionHeading
             icon={User}
             iconLabel="Why Choose Us"
-            title="Why Orange Virtual Connect?"
-            subtitle="We don't just assist — we enable you to lead with ease"
+            title={whyChooseUs.mainHeading}
+            subtitle={whyChooseUs.subheading}
             centered={false}
             className="max-w-full"
           />
@@ -20,7 +27,7 @@ export function WhyChooseUsSection() {
         <div className="relative mx-auto max-w-7xl px-8 mt-16">
           <div className="absolute -z-50 size-[400px] -top-10 -left-20 aspect-square rounded-full bg-orange-500/30 blur-3xl"></div>
           <p className="text-slate-800 text-lg text-left max-w-3xl">
-            With over 12 years of experience, Orange Virtual Connect delivers professional virtual assistant services that adapt to your unique business needs, helping you reclaim your time and focus on what matters most.
+            {whyChooseUs.description}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 mt-8 gap-10">
             <div className="md:col-span-2">
