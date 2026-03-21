@@ -1,70 +1,26 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { SectionHeading } from '@/src/shared/components/ui/SectionHeading';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { FileText, Calendar, ArrowRight, Sparkles } from 'lucide-react';
+import { BlogVideoSection } from '@/components/blog/BlogVideoSection';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { getPublicBlogCms } from '@/src/lib/cms/getPublicBlogCms';
+import { blogPosts } from '@/src/lib/blog/data';
+import { blogCaseStudies } from '@/src/lib/blog/caseStudies';
+import { BarChart3, Sparkles } from 'lucide-react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
-import { format } from 'date-fns';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Blog | OrangeVC - Insights & Tips for Virtual Assistance',
   description: 'Read insights on virtual assistants, remote work, productivity, and how OrangeVC helps businesses scale with verified professionals.',
 };
 
-// Mock blog posts – replace with API or CMS later
-const blogPosts = [
-  {
-    slug: 'why-hire-a-virtual-assistant',
-    title: 'Why Hire a Virtual Assistant? 5 Benefits for Busy Entrepreneurs',
-    excerpt: 'Discover how a dedicated virtual assistant can save you time, reduce overhead, and help you focus on what matters most in your business.',
-    date: '2025-03-10',
-    category: 'Productivity',
-    readTime: '5 min read',
-  },
-  {
-    slug: 'virtual-assistant-vs-in-house',
-    title: 'Virtual Assistant vs In-House Hire: What’s Right for You?',
-    excerpt: 'We compare cost, flexibility, and scalability so you can choose the right support model for your team and budget.',
-    date: '2025-03-05',
-    category: 'Business',
-    readTime: '6 min read',
-  },
-  {
-    slug: 'getting-started-with-va',
-    title: 'Getting Started with Your First Virtual Assistant',
-    excerpt: 'A step-by-step guide to onboarding your first VA: from defining tasks and tools to setting clear expectations and feedback loops.',
-    date: '2025-02-28',
-    category: 'Getting Started',
-    readTime: '7 min read',
-  },
-  {
-    slug: 'customer-support-best-practices',
-    title: 'Customer Support Best Practices for Growing Teams',
-    excerpt: 'How to deliver consistent, empathetic support at scale—whether you handle it in-house or with a dedicated support VA.',
-    date: '2025-02-20',
-    category: 'Customer Support',
-    readTime: '5 min read',
-  },
-  {
-    slug: 'tools-for-remote-teams',
-    title: 'Essential Tools for Managing Remote & Virtual Teams',
-    excerpt: 'Communication, project management, and file-sharing tools that keep distributed teams aligned and productive.',
-    date: '2025-02-15',
-    category: 'Remote Work',
-    readTime: '6 min read',
-  },
-  {
-    slug: 'scaling-with-vas',
-    title: 'Scaling Your Business with Virtual Assistants',
-    excerpt: 'Learn how successful teams use VAs for admin, sales, marketing, and operations to grow without proportionally growing headcount.',
-    date: '2025-02-08',
-    category: 'Scaling',
-    readTime: '5 min read',
-  },
-];
+export default async function BlogPage() {
+  const cms = await getPublicBlogCms();
+  const { hero, caseStudiesHero } = cms;
 
-export default function BlogPage() {
   return (
     <div className="min-h-screen bg-white-smoke">
       <Header />
@@ -78,61 +34,106 @@ export default function BlogPage() {
           <div className="max-w-3xl mx-auto text-center">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-tomato/10 text-tomato font-semibold text-sm mb-6">
               <Sparkles className="w-4 h-4" />
-              Blog
+              {hero.badgeLabel}
             </span>
             <h1 className="font-heading text-4xl md:text-6xl font-bold text-rich-black mb-6 leading-tight">
-              Insights &{' '}
-              <span className="text-tomato">Tips</span>
+              {hero.headingPart1}{' '}
+              <span className="text-tomato">{hero.headingPart2}</span>
             </h1>
             <p className="text-xl text-rich-black/70 max-w-2xl mx-auto leading-relaxed">
-              Practical advice on virtual assistants, remote work, and scaling your business with the right support.
+              {hero.subtitle}
             </p>
           </div>
         </div>
       </section>
 
       {/* Blog List */}
-      <section className="bg-white -mt-16 pb-24">
+      <section className="bg-white -mt-16 pb-16 md:pb-20">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="max-w-6xl mx-auto pt-16">
-            <SectionHeading
-              icon={FileText}
-              iconLabel="Articles"
-              title="Latest from our blog"
-              subtitle="Ideas and best practices to help you work smarter with virtual assistance."
-              centered
-              className="mx-auto mb-14"
-            />
-
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogPosts.map((post) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}>
-                  <Card className="h-full border border-platinum/60 bg-white hover:shadow-lg hover:border-tomato/20 transition-all duration-300 group overflow-hidden">
-                    <CardHeader className="pb-2">
-                      <span className="text-xs font-semibold text-tomato uppercase tracking-wide">
-                        {post.category}
-                      </span>
+                  <Card className="h-full border border-platinum/60 bg-white hover:shadow-lg hover:border-tomato/20 transition-all duration-300 group overflow-hidden flex flex-col p-0 gap-0">
+                    <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-platinum/40">
+                      <Image
+                        src={post.image}
+                        alt={post.imageAlt}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
+                    <CardHeader className="space-y-0 px-6 pt-6 pb-2">
                       <h2 className="font-heading text-xl font-bold text-rich-black group-hover:text-tomato transition-colors line-clamp-2">
                         {post.title}
                       </h2>
                     </CardHeader>
-                    <CardContent className="pb-4">
+                    <CardContent className="px-6 pb-6 pt-0">
                       <p className="text-rich-black/70 text-sm leading-relaxed line-clamp-3">
                         {post.excerpt}
                       </p>
                     </CardContent>
-                    <CardFooter className="flex items-center justify-between text-sm text-rich-black/60 pt-0">
-                      <span className="flex items-center gap-1.5">
-                        <Calendar className="w-4 h-4" />
-                        {format(new Date(post.date), 'MMM d, yyyy')}
-                      </span>
-                      <span className="flex items-center gap-1.5 group-hover:text-tomato transition-colors">
-                        {post.readTime}
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                      </span>
-                    </CardFooter>
                   </Card>
                 </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured video */}
+      <section className="bg-white-smoke border-t border-platinum/50 py-20 md:py-24">
+        <div className="container mx-auto px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <BlogVideoSection videosHero={cms.videosHero} />
+          </div>
+        </div>
+      </section>
+
+      {/* Case studies */}
+      <section className="bg-white border-t border-platinum/50 py-20 md:py-24 pb-28">
+        <div className="container mx-auto px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12 md:mb-14">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-tomato/10 text-tomato font-semibold text-sm mb-5">
+                <BarChart3 className="w-4 h-4" />
+                {caseStudiesHero.badgeLabel}
+              </span>
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-rich-black mb-4">
+                {caseStudiesHero.headingPart1}{' '}
+                <span className="text-tomato">{caseStudiesHero.headingPart2}</span>
+              </h2>
+              <p className="text-lg text-rich-black/70 max-w-2xl mx-auto leading-relaxed">
+                {caseStudiesHero.subtitle}
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogCaseStudies.map((study) => (
+                <Card
+                  key={study.title}
+                  className="overflow-hidden border border-platinum/60 bg-white shadow-sm hover:shadow-lg hover:border-tomato/20 transition-all duration-300 flex flex-col p-0 gap-0"
+                >
+                  <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-platinum/40">
+                    <Image
+                      src={study.image}
+                      alt={study.imageAlt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                  <CardHeader className="px-6 pt-6 pb-2 space-y-0">
+                    <h3 className="font-heading text-lg font-bold text-rich-black leading-snug">
+                      {study.title}
+                    </h3>
+                  </CardHeader>
+                  <CardContent className="px-6 pb-6 pt-0">
+                    <p className="text-rich-black/70 text-sm leading-relaxed">
+                      {study.subtitle}
+                    </p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
