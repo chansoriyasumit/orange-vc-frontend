@@ -1,14 +1,11 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { BlogListWithDetailModal } from '@/components/blog/BlogListWithDetailModal';
 import { BlogVideoSection } from '@/components/blog/BlogVideoSection';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getPublicBlogCms } from '@/src/lib/cms/getPublicBlogCms';
-import { blogPosts } from '@/src/lib/blog/data';
-import { blogCaseStudies } from '@/src/lib/blog/caseStudies';
 import { BarChart3, Sparkles } from 'lucide-react';
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 
 export const revalidate = 60;
 
@@ -20,6 +17,7 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   const cms = await getPublicBlogCms();
   const { hero, caseStudiesHero } = cms;
+  const showVideoBlock = cms.videos.some((v) => v.videoUrl?.trim());
 
   return (
     <div className="min-h-screen bg-white-smoke">
@@ -47,51 +45,27 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      {/* Blog List */}
+      {/* Blog List (CMS) */}
       <section className="bg-white -mt-16 pb-16 md:pb-20">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="max-w-6xl mx-auto pt-16">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogPosts.map((post) => (
-                <Link key={post.slug} href={`/blog/${post.slug}`}>
-                  <Card className="h-full border border-platinum/60 bg-white hover:shadow-lg hover:border-tomato/20 transition-all duration-300 group overflow-hidden flex flex-col p-0 gap-0">
-                    <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-platinum/40">
-                      <Image
-                        src={post.image}
-                        alt={post.imageAlt}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    </div>
-                    <CardHeader className="space-y-0 px-6 pt-6 pb-2">
-                      <h2 className="font-heading text-xl font-bold text-rich-black group-hover:text-tomato transition-colors line-clamp-2">
-                        {post.title}
-                      </h2>
-                    </CardHeader>
-                    <CardContent className="px-6 pb-6 pt-0">
-                      <p className="text-rich-black/70 text-sm leading-relaxed line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
+            <BlogListWithDetailModal items={cms.blogs} />
+          </div>
+        </div>
+      </section>
+
+      {/* Featured video (CMS) */}
+      {showVideoBlock ? (
+        <section className="bg-white-smoke border-t border-platinum/50 py-20 md:py-24">
+          <div className="container mx-auto px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto">
+              <BlogVideoSection videosHero={cms.videosHero} videos={cms.videos} />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      {/* Featured video */}
-      <section className="bg-white-smoke border-t border-platinum/50 py-20 md:py-24">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <BlogVideoSection videosHero={cms.videosHero} />
-          </div>
-        </div>
-      </section>
-
-      {/* Case studies */}
+      {/* Case studies (CMS) */}
       <section className="bg-white border-t border-platinum/50 py-20 md:py-24 pb-28">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
@@ -109,28 +83,33 @@ export default async function BlogPage() {
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogCaseStudies.map((study) => (
+              {cms.caseStudies.map((study, index) => (
                 <Card
-                  key={study.title}
+                  key={`case-${index}-${study.title}`}
                   className="overflow-hidden border border-platinum/60 bg-white shadow-sm hover:shadow-lg hover:border-tomato/20 transition-all duration-300 flex flex-col p-0 gap-0"
                 >
                   <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-platinum/40">
-                    <Image
-                      src={study.image}
-                      alt={study.imageAlt}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
+                    {study.imageUrl?.trim() ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- CMS S3/CDN URLs; avoid next/image remote config
+                      <img
+                        src={study.imageUrl}
+                        alt={study.title || 'Case study'}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-sm text-rich-black/40">
+                        No image
+                      </div>
+                    )}
                   </div>
                   <CardHeader className="px-6 pt-6 pb-2 space-y-0">
                     <h3 className="font-heading text-lg font-bold text-rich-black leading-snug">
-                      {study.title}
+                      {study.title || 'Untitled'}
                     </h3>
                   </CardHeader>
                   <CardContent className="px-6 pb-6 pt-0">
-                    <p className="text-rich-black/70 text-sm leading-relaxed">
-                      {study.subtitle}
+                    <p className="text-rich-black/70 text-sm leading-relaxed line-clamp-4">
+                      {study.subtitle?.trim() || study.description?.trim() || '—'}
                     </p>
                   </CardContent>
                 </Card>

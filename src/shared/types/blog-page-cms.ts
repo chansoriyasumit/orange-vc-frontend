@@ -1,5 +1,5 @@
 /**
- * Blog page CMS — aligned with admin `BlogPageCmsPayload` and public `GET /cms/blog`.
+ * Blog page CMS — aligned with public `GET /cms/blog` and admin payload shape.
  * Public API returns `{ data: ... }` like `/cms/home` and `/cms/about`.
  */
 
@@ -10,83 +10,109 @@ export interface BlogPageHeroCms {
   subtitle: string;
 }
 
+/** Row in `blogs` / `videos` / `caseStudies` arrays (matches backend ContentSectionItem). */
+export interface ContentSectionItem {
+  title: string;
+  subtitle: string;
+  description: string;
+  imageUrl?: string;
+  imageId?: string;
+  videoUrl?: string;
+  videoId?: string;
+  sortOrder?: number;
+}
+
 export interface BlogPageCmsPayload {
   hero: BlogPageHeroCms;
   videosHero: BlogPageHeroCms;
   caseStudiesHero: BlogPageHeroCms;
+  blogs: ContentSectionItem[];
+  videos: ContentSectionItem[];
+  caseStudies: ContentSectionItem[];
 }
 
-function mergeHeroFields(
-  partial: Partial<BlogPageHeroCms> | undefined,
-  defaults: BlogPageHeroCms,
-): BlogPageHeroCms {
-  if (!partial || typeof partial !== "object") return defaults;
+const EMPTY_HERO: BlogPageHeroCms = {
+  badgeLabel: "",
+  headingPart1: "",
+  headingPart2: "",
+  subtitle: "",
+};
+
+function parseHero(partial: unknown): BlogPageHeroCms {
+  if (!partial || typeof partial !== "object") {
+    return { ...EMPTY_HERO };
+  }
+  const o = partial as Record<string, unknown>;
   return {
-    badgeLabel:
-      typeof partial.badgeLabel === "string" && partial.badgeLabel.trim()
-        ? partial.badgeLabel
-        : defaults.badgeLabel,
-    headingPart1:
-      typeof partial.headingPart1 === "string" && partial.headingPart1.trim()
-        ? partial.headingPart1
-        : defaults.headingPart1,
-    headingPart2:
-      typeof partial.headingPart2 === "string" && partial.headingPart2.trim()
-        ? partial.headingPart2
-        : defaults.headingPart2,
-    subtitle:
-      typeof partial.subtitle === "string" && partial.subtitle.trim()
-        ? partial.subtitle
-        : defaults.subtitle,
+    badgeLabel: typeof o.badgeLabel === "string" ? o.badgeLabel : "",
+    headingPart1: typeof o.headingPart1 === "string" ? o.headingPart1 : "",
+    headingPart2: typeof o.headingPart2 === "string" ? o.headingPart2 : "",
+    subtitle: typeof o.subtitle === "string" ? o.subtitle : "",
   };
 }
 
-export function defaultBlogPageCmsFallback(): BlogPageCmsPayload {
+function parseContentSectionItem(raw: unknown, index: number): ContentSectionItem {
+  if (!raw || typeof raw !== "object") {
+    return {
+      title: "",
+      subtitle: "",
+      description: "",
+      sortOrder: index + 1,
+    };
+  }
+  const o = raw as Record<string, unknown>;
+  const sortOrder =
+    typeof o.sortOrder === "number" && Number.isFinite(o.sortOrder)
+      ? o.sortOrder
+      : index + 1;
   return {
-    hero: {
-      badgeLabel: "Blog",
-      headingPart1: "Insights &",
-      headingPart2: "Tips",
-      subtitle:
-        "Practical advice on virtual assistants, remote work, and scaling your business with the right support.",
-    },
-    videosHero: {
-      badgeLabel: "Videos",
-      headingPart1: "See how teams work with",
-      headingPart2: "virtual support",
-      subtitle:
-        "Short clips on delegation, remote collaboration, and scaling operations with the right support.",
-    },
-    caseStudiesHero: {
-      badgeLabel: "Case studies",
-      headingPart1: "Outcomes from teams like",
-      headingPart2: "yours",
-      subtitle:
-        "Snapshot stories of how verified virtual support drives measurable results across ops, support, and growth.",
-    },
+    title: typeof o.title === "string" ? o.title : "",
+    subtitle: typeof o.subtitle === "string" ? o.subtitle : "",
+    description: typeof o.description === "string" ? o.description : "",
+    imageUrl: typeof o.imageUrl === "string" ? o.imageUrl : undefined,
+    imageId: typeof o.imageId === "string" ? o.imageId : undefined,
+    videoUrl: typeof o.videoUrl === "string" ? o.videoUrl : undefined,
+    videoId: typeof o.videoId === "string" ? o.videoId : undefined,
+    sortOrder,
   };
 }
 
-export function mergeBlogCmsWithFallbacks(
-  partial: Partial<BlogPageCmsPayload> | null | undefined,
-): BlogPageCmsPayload {
-  const d = defaultBlogPageCmsFallback();
-  if (!partial || typeof partial !== "object") return d;
-  const h =
-    partial.hero && typeof partial.hero === "object"
-      ? partial.hero
-      : undefined;
-  const v =
-    partial.videosHero && typeof partial.videosHero === "object"
-      ? partial.videosHero
-      : undefined;
-  const c =
-    partial.caseStudiesHero && typeof partial.caseStudiesHero === "object"
-      ? partial.caseStudiesHero
-      : undefined;
+function parseContentSectionList(raw: unknown): ContentSectionItem[] {
+  if (!Array.isArray(raw)) return [];
+  const withIdx = raw.map((item, index) => ({
+    item: parseContentSectionItem(item, index),
+    index,
+  }));
+  withIdx.sort((a, b) => {
+    const sa = a.item.sortOrder ?? a.index + 1;
+    const sb = b.item.sortOrder ?? b.index + 1;
+    return sa - sb;
+  });
+  return withIdx.map((x) => x.item);
+}
+
+/**
+ * Normalize API `data` object. Heroes use empty strings for missing fields.
+ * Lists default to [] when missing or invalid.
+ */
+export function parseBlogPageCmsPayload(data: unknown): BlogPageCmsPayload {
+  if (!data || typeof data !== "object") {
+    return {
+      hero: { ...EMPTY_HERO },
+      videosHero: { ...EMPTY_HERO },
+      caseStudiesHero: { ...EMPTY_HERO },
+      blogs: [],
+      videos: [],
+      caseStudies: [],
+    };
+  }
+  const o = data as Record<string, unknown>;
   return {
-    hero: mergeHeroFields(h, d.hero),
-    videosHero: mergeHeroFields(v, d.videosHero),
-    caseStudiesHero: mergeHeroFields(c, d.caseStudiesHero),
+    hero: parseHero(o.hero),
+    videosHero: parseHero(o.videosHero),
+    caseStudiesHero: parseHero(o.caseStudiesHero),
+    blogs: parseContentSectionList(o.blogs),
+    videos: parseContentSectionList(o.videos),
+    caseStudies: parseContentSectionList(o.caseStudies),
   };
 }

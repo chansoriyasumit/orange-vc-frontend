@@ -1,16 +1,20 @@
 "use client";
 
 import { VideoPlayer } from "@/src/shared/components/ui/VideoPlayer";
-import { blogFeaturedVideos } from "@/src/lib/blog/videos";
-import type { BlogPageHeroCms } from "@/src/shared/types/blog-page-cms";
+import type {
+  BlogPageHeroCms,
+  ContentSectionItem,
+} from "@/src/shared/types/blog-page-cms";
 import { Video } from "lucide-react";
 
 type BlogVideoSectionProps = {
   videosHero: BlogPageHeroCms;
+  videos: ContentSectionItem[];
 };
 
-export function BlogVideoSection({ videosHero }: BlogVideoSectionProps) {
-  if (blogFeaturedVideos.length === 0) {
+export function BlogVideoSection({ videosHero, videos }: BlogVideoSectionProps) {
+  const playable = videos.filter((v) => v.videoUrl?.trim());
+  if (playable.length === 0) {
     return null;
   }
 
@@ -31,17 +35,21 @@ export function BlogVideoSection({ videosHero }: BlogVideoSectionProps) {
       </div>
 
       <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3 xl:gap-8">
-        {blogFeaturedVideos.map((item) => (
+        {playable.map((item, index) => (
           <article
-            key={item.id}
+            key={item.videoId?.trim() || `video-${index}-${item.title}`}
             className="flex flex-col gap-4 min-w-0"
           >
             <h3 className="font-heading text-xl font-bold text-rich-black leading-snug">
-              {item.title}
+              {item.title || "Video"}
             </h3>
+            {(item.subtitle?.trim() || item.description?.trim()) ? (
+              <p className="text-sm text-rich-black/70 leading-relaxed line-clamp-3">
+                {item.subtitle?.trim() || item.description?.trim()}
+              </p>
+            ) : null}
             <VideoPlayer
-              videoUrl={item.videoUrl}
-              posterUrl={item.posterUrl}
+              videoUrl={item.videoUrl!.trim()}
               className="shadow-xl border border-platinum/50"
             />
           </article>
