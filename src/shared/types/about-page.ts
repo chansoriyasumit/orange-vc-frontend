@@ -53,21 +53,12 @@ export interface AboutPageWhyChooseUsData {
   subtitle: string;
 }
 
-export const MIN_LEADERSHIP_TEAM = 3;
+export const MIN_LEADERSHIP_TEAM = 1;
 
 export function normalizeLeadershipTeam(
   members: LeadershipTeamMember[] | undefined,
 ): LeadershipTeamMember[] {
-  const list = members?.length ? [...members] : [];
-  while (list.length < MIN_LEADERSHIP_TEAM) {
-    list.push({
-      name: "",
-      role: "",
-      description: "",
-      imageUrl: "",
-    });
-  }
-  return list;
+  return members?.length ? [...members] : [];
 }
 
 export interface AboutPageCmsPayload {
@@ -80,7 +71,6 @@ export interface AboutPageCmsPayload {
 }
 
 export function defaultEmptyAboutPageCms(): AboutPageCmsPayload {
-  const team = normalizeLeadershipTeam(undefined);
   return {
     aboutUs: {
       headingPart1: "",
@@ -96,7 +86,7 @@ export function defaultEmptyAboutPageCms(): AboutPageCmsPayload {
         description: "",
         imageUrl: "",
       },
-      teamMembers: team,
+      teamMembers: [],
     },
     ourStory: {
       heading: "",
@@ -137,7 +127,7 @@ export const ABOUT_PAGE_CMS_FALLBACKS: AboutPageCmsPayload = {
         "15+ years building and scaling high-performing customer operations and Virtual Assistant teams globally. I drive SOP-led, scalable systems and empowered teams for seamless operations and confident growth.",
       imageUrl: "/images/team/akashdeep-sharma.jpg",
     },
-    teamMembers: normalizeLeadershipTeam([
+    teamMembers: [
       {
         name: "Mitchelle Adhiambo",
         role: "Virtual Assistant",
@@ -159,7 +149,7 @@ export const ABOUT_PAGE_CMS_FALLBACKS: AboutPageCmsPayload = {
           "A Virtual Assistant at Orange Virtual Connect, supporting administrative, client, and digital tasks. She manages data, reporting, research, coordination, and presentations to ensure smooth workflows and organized operations.",
         imageUrl: "/images/team/gunjan-suman.jpg",
       },
-    ]),
+    ],
   },
   ourStory: {
     heading: "Over 12 Years of Industry Expertise",
@@ -212,8 +202,10 @@ export function mergeAboutCmsWithFallbacks(
   data: AboutPageCmsPayload,
 ): AboutPageCmsPayload {
   const f = ABOUT_PAGE_CMS_FALLBACKS;
-  const apiTeam = normalizeLeadershipTeam(data.leadership?.teamMembers);
-  const fbTeam = normalizeLeadershipTeam(f.leadership.teamMembers);
+  const rawApiTeam = data.leadership?.teamMembers;
+  const apiTeam =
+    rawApiTeam && rawApiTeam.length > 0 ? [...rawApiTeam] : [];
+  const fbTeam = f.leadership.teamMembers;
 
   return {
     aboutUs: {
@@ -239,9 +231,12 @@ export function mergeAboutCmsWithFallbacks(
         },
         f.leadership.ceo,
       ),
-      teamMembers: apiTeam.map((m, i) =>
-        mergeLeadershipPerson(m, fbTeam[i] ?? fbTeam[0]),
-      ),
+      teamMembers:
+        apiTeam.length > 0
+          ? apiTeam.map((m, i) =>
+              mergeLeadershipPerson(m, fbTeam[i] ?? fbTeam[0]),
+            )
+          : [...fbTeam],
     },
     ourStory: {
       heading: pick(data.ourStory?.heading ?? "", f.ourStory.heading),

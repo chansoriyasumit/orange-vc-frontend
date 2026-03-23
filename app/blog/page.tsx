@@ -2,7 +2,6 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { BlogListWithDetailModal } from '@/components/blog/BlogListWithDetailModal';
 import { BlogVideoSection } from '@/components/blog/BlogVideoSection';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getPublicBlogCms } from '@/src/lib/cms/getPublicBlogCms';
 import { BarChart3, Sparkles } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -82,39 +81,7 @@ export default async function BlogPage() {
                 {caseStudiesHero.subtitle}
               </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {cms.caseStudies.map((study, index) => (
-                <Card
-                  key={`case-${index}-${study.title}`}
-                  className="overflow-hidden border border-platinum/60 bg-white shadow-sm hover:shadow-lg hover:border-tomato/20 transition-all duration-300 flex flex-col p-0 gap-0"
-                >
-                  <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-platinum/40">
-                    {study.imageUrl?.trim() ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- CMS S3/CDN URLs; avoid next/image remote config
-                      <img
-                        src={study.imageUrl}
-                        alt={study.title || 'Case study'}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-sm text-rich-black/40">
-                        No image
-                      </div>
-                    )}
-                  </div>
-                  <CardHeader className="px-6 pt-6 pb-2 space-y-0">
-                    <h3 className="font-heading text-lg font-bold text-rich-black leading-snug">
-                      {study.title || 'Untitled'}
-                    </h3>
-                  </CardHeader>
-                  <CardContent className="px-6 pb-6 pt-0">
-                    <p className="text-rich-black/70 text-sm leading-relaxed line-clamp-4">
-                      {study.subtitle?.trim() || study.description?.trim() || '—'}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <BlogListWithDetailModal items={cms.caseStudies} />
           </div>
         </div>
       </section>

@@ -84,7 +84,7 @@ export function BlogListWithDetailModal({ items }: BlogListWithDetailModalProps)
       </div>
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-h-[min(90vh,900px)] max-w-2xl overflow-y-auto border-platinum/60 bg-white p-0 gap-0 sm:rounded-xl">
+        <DialogContent className="max-h-[min(90vh,900px)] max-w-2xl overflow-y-auto border-platinum/60 bg-white p-0 gap-0 sm:rounded-xl [&>button]:right-3 [&>button]:top-3 [&>button]:z-50 [&>button]:rounded-full [&>button]:border [&>button]:border-platinum/60 [&>button]:bg-white/95 [&>button]:p-2 [&>button]:shadow-md [&>button]:opacity-100 hover:[&>button]:bg-white">
           {selected ? (
             <div className="flex flex-col">
               <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-platinum/40">
