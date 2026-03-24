@@ -5,6 +5,7 @@ import Script from 'next/script';
 import { AuthProvider } from '@/src/features/auth/lib/AuthContext';
 import { Toaster } from '@/components/ui/toaster';
 import { TawkToWidget } from '@/src/features/tasks/components/TawkToWidget';
+import { FloatingSocialBar } from '@/components/layout/FloatingSocialBar';
 
 const manrope = Manrope({ 
   subsets: ['latin'],
@@ -69,6 +70,7 @@ export default function RootLayout({
         </Script>
         <AuthProvider>
           {children}
+          <FloatingSocialBar />
           <Toaster />
           <TawkToWidget />
         </AuthProvider>

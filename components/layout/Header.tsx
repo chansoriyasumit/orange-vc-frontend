@@ -5,7 +5,7 @@ import { useAuth } from '@/src/features/auth/lib/AuthContext';
 import { AppButton } from '@/src/shared/components/ui/AppButton';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, User, LogOut, LayoutDashboard, ChevronDown, Linkedin, Instagram, Facebook, Youtube, Globe, Phone, Users, Headset } from 'lucide-react';
+import { Menu, User, LogOut, LayoutDashboard, ChevronDown, Headset } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   DropdownMenu,
@@ -53,6 +53,7 @@ export function Header() {
   const navLinks = [
     { href: '/about', label: 'About' },
     { href: '/services', label: 'Services' },
+    { href: '/blog', label: 'Blog' },
     { href: '/pricing', label: 'Pricing' },
     { href: '/faq', label: 'FAQ' },
     { href: '/contact', label: 'Contact' },
@@ -114,74 +115,6 @@ export function Header() {
               <span className="hidden lg:inline">+1 (909) 634-2861</span>
             </a>
             
-            {/* Social Links - Desktop Only */}
-            <div className="flex items-center gap-3 ml-2 pl-4 border-l border-rich-black/20">
-              {/* <a 
-                href="https://www.orangevirtualconnect.com/" 
-                target="_blank" 
-                rel="noreferrer"
-                className={`transition-colors ${
-                  scrolled || !isHomepage
-                    ? 'text-rich-black/60 hover:text-tomato'
-                    : 'text-rich-black/60 hover:text-tomato'
-                }`}
-                aria-label="Website"
-              >
-                <Globe className="w-4 h-4" />
-              </a> */}
-              <a 
-                href="https://www.linkedin.com/company/orange-virtual-global-solutions-pvt-ltd" 
-                target="_blank" 
-                rel="noreferrer"
-                className={`transition-colors ${
-                  scrolled || !isHomepage
-                    ? 'text-rich-black/60 hover:text-tomato'
-                    : 'text-rich-black/60 hover:text-tomato'
-                }`}
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a 
-                href="https://www.instagram.com/orangevirtualconnect/" 
-                target="_blank" 
-                rel="noreferrer"
-                className={`transition-colors ${
-                  scrolled || !isHomepage
-                    ? 'text-rich-black/60 hover:text-tomato'
-                    : 'text-rich-black/60 hover:text-tomato'
-                }`}
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a 
-                href="https://www.facebook.com/orangevirtualconnect" 
-                target="_blank" 
-                rel="noreferrer"
-                className={`transition-colors ${
-                  scrolled || !isHomepage
-                    ? 'text-rich-black/60 hover:text-tomato'
-                    : 'text-rich-black/60 hover:text-tomato'
-                }`}
-                aria-label="Facebook"
-              >
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a 
-                href="https://www.youtube.com/@OrangeVirtualConnect" 
-                target="_blank" 
-                rel="noreferrer"
-                className={`transition-colors ${
-                  scrolled || !isHomepage
-                    ? 'text-rich-black/60 hover:text-tomato'
-                    : 'text-rich-black/60 hover:text-tomato'
-                }`}
-                aria-label="YouTube"
-              >
-                <Youtube className="w-4 h-4" />
-              </a>
-            </div>
           </nav>
 
           {/* Desktop Auth Buttons */}
@@ -326,62 +259,6 @@ export function Header() {
                   )}
                 </div>
 
-                {/* Social Links - Mobile */}
-                <div className="border-t border-platinum pt-6 mt-4">
-                  <p className="text-sm font-medium text-rich-black/60 mb-4">Follow Us</p>
-                  <div className="flex items-center gap-4">
-                    <a 
-                      href="https://www.orangevirtualconnect.com/" 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="text-rich-black/60 hover:text-tomato transition-colors"
-                      aria-label="Website"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <Globe className="w-5 h-5" />
-                    </a>
-                    <a 
-                      href="https://www.linkedin.com/company/orange-virtual-global-solutions-pvt-ltd" 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="text-rich-black/60 hover:text-tomato transition-colors"
-                      aria-label="LinkedIn"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                    <a 
-                      href="https://www.instagram.com/orangevirtualconnect/" 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="text-rich-black/60 hover:text-tomato transition-colors"
-                      aria-label="Instagram"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <Instagram className="w-5 h-5" />
-                    </a>
-                    <a 
-                      href="https://www.facebook.com/orangevirtualconnect" 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="text-rich-black/60 hover:text-tomato transition-colors"
-                      aria-label="Facebook"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <Facebook className="w-5 h-5" />
-                    </a>
-                    <a 
-                      href="https://www.youtube.com/@OrangeVirtualConnect" 
-                      target="_blank" 
-                      rel="noreferrer"
-                      className="text-rich-black/60 hover:text-tomato transition-colors"
-                      aria-label="YouTube"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <Youtube className="w-5 h-5" />
-                    </a>
-                  </div>
-                </div>
               </nav>
             </SheetContent>
           </Sheet>

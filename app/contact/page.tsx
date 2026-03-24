@@ -3,93 +3,13 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { DotBackground } from '@/src/shared/components/backgrounds/GridBackground';
-import { useState, useEffect } from 'react';
-import { Mail, Clock, MessageSquare, Send, CheckCircle, Phone, Loader2, AlertCircle, Users } from 'lucide-react';
+import { Mail, Clock, Send, CheckCircle, Phone } from 'lucide-react';
 import Link from 'next/link';
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { apiContactRepository } from '@/src/features/contacts';
-import { ApiError } from '@/src/lib/api';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { ContactLeadForm } from '@/src/features/contacts/components/ContactLeadForm';
 
 function ContactForm() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobileNumber: '',
-    query: '',
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isRecaptchaReady, setIsRecaptchaReady] = useState(false);
-  const { executeRecaptcha } = useGoogleReCaptcha();
-
-  // Check if reCAPTCHA is ready
-  useEffect(() => {
-    if (executeRecaptcha) {
-      setIsRecaptchaReady(true);
-    }
-  }, [executeRecaptcha]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
-
-    try {
-      // Get reCAPTCHA token - must be done right before submission
-      if (!executeRecaptcha || !isRecaptchaReady) {
-        throw new Error('reCAPTCHA is not ready. Please wait a moment and try again.');
-      }
-
-      // Generate token immediately before sending
-      let recaptchaToken: string;
-      try {
-        recaptchaToken = await executeRecaptcha('contact_form');
-      } catch (recaptchaError) {
-        console.error('reCAPTCHA execution error:', recaptchaError);
-        throw new Error('Failed to verify you are human. Please try again.');
-      }
-
-      // Validate token
-      if (!recaptchaToken || recaptchaToken.length === 0) {
-        throw new Error('Failed to generate reCAPTCHA token. Please try again.');
-      }
-
-      // Submit to API immediately after getting token
-      await apiContactRepository.createContact({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        mobileNumber: formData.mobileNumber,
-        query: formData.query,
-        recaptchaToken,
-      });
-
-      setIsSubmitted(true);
-      setFormData({ firstName: '', lastName: '', email: '', mobileNumber: '', query: '' });
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 5000);
-    } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message || 'Failed to submit contact form. Please try again.');
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unexpected error occurred. Please try again.');
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <>
       {/* Contact Form Section with Dot Background */}
@@ -185,125 +105,7 @@ function ContactForm() {
                 {/* Right - Contact Form */}
                 <div className="lg:col-span-3">
                   <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border border-platinum/50 shadow-sm">
-                    {isSubmitted ? (
-                      <div className="text-center py-12">
-                        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
-                          <CheckCircle className="w-10 h-10 text-green-600" />
-                        </div>
-                        <h3 className="font-heading text-2xl font-bold text-rich-black mb-3">
-                          Message Sent!
-                        </h3>
-                        <p className="text-rich-black/70">
-                          Thank you for reaching out. We'll get back to you within 24 working hours.
-                        </p>
-                      </div>
-                    ) : (
-                      <form onSubmit={handleSubmit} className="space-y-6">
-                        {error && (
-                          <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-                            <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                            <p className="text-sm">{error}</p>
-                          </div>
-                        )}
-
-                        <div className="grid sm:grid-cols-2 gap-6">
-                          <div>
-                            <Label htmlFor="firstName" className="text-rich-black font-medium">First Name *</Label>
-                            <Input
-                              id="firstName"
-                              type="text"
-                              value={formData.firstName}
-                              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                              required
-                              placeholder="John"
-                              className="mt-2 h-12 bg-white-smoke border-platinum/50 focus:border-tomato focus:ring-tomato"
-                              disabled={isSubmitting}
-                            />
-                          </div>
-
-                          <div>
-                            <Label htmlFor="lastName" className="text-rich-black font-medium">Last Name *</Label>
-                            <Input
-                              id="lastName"
-                              type="text"
-                              value={formData.lastName}
-                              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                              required
-                              placeholder="Doe"
-                              className="mt-2 h-12 bg-white-smoke border-platinum/50 focus:border-tomato focus:ring-tomato"
-                              disabled={isSubmitting}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="grid sm:grid-cols-2 gap-6">
-                          <div>
-                            <Label htmlFor="email" className="text-rich-black font-medium">Email Address *</Label>
-                            <Input
-                              id="email"
-                              type="email"
-                              value={formData.email}
-                              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                              required
-                              placeholder="john.doe@example.com"
-                              className="mt-2 h-12 bg-white-smoke border-platinum/50 focus:border-tomato focus:ring-tomato"
-                              disabled={isSubmitting}
-                            />
-                          </div>
-
-                          <div>
-                            <Label htmlFor="mobileNumber" className="text-rich-black font-medium">Mobile Number *</Label>
-                            <Input
-                              id="mobileNumber"
-                              type="tel"
-                              value={formData.mobileNumber}
-                              onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
-                              required
-                              placeholder="+919876543210"
-                              className="mt-2 h-12 bg-white-smoke border-platinum/50 focus:border-tomato focus:ring-tomato"
-                              disabled={isSubmitting}
-                            />
-                          </div>
-                        </div>
-
-                        <div>
-                          <Label htmlFor="query" className="text-rich-black font-medium">How can we help? *</Label>
-                          <Textarea
-                            id="query"
-                            value={formData.query}
-                            onChange={(e) => setFormData({ ...formData, query: e.target.value })}
-                            required
-                            placeholder="I would like to know more about your services."
-                            rows={5}
-                            className="mt-2 bg-white-smoke border-platinum/50 focus:border-tomato focus:ring-tomato resize-none"
-                            disabled={isSubmitting}
-                          />
-                        </div>
-
-                        <Button
-                          type="submit"
-                          size="lg"
-                          disabled={isSubmitting}
-                          className="w-full h-14 bg-gradient-to-r from-tomato to-tomato-600 hover:from-tomato-600 hover:to-tomato text-white font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {isSubmitting ? (
-                            <>
-                              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                              Sending...
-                            </>
-                          ) : (
-                            <>
-                              <Send className="w-5 h-5 mr-2" />
-                              Send Message
-                            </>
-                          )}
-                        </Button>
-
-                        <p className="text-center text-sm text-rich-black/50">
-                          By submitting this form, you agree to our privacy policy.
-                        </p>
-                      </form>
-                    )}
+                    <ContactLeadForm />
                   </div>
                 </div>
               </div>
@@ -349,6 +151,11 @@ export default function ContactPage() {
           async: true,
           defer: true,
           appendTo: 'head',
+        }}
+        container={{
+          parameters: {
+            badge: 'bottomleft',
+          },
         }}
       >
         <ContactForm />

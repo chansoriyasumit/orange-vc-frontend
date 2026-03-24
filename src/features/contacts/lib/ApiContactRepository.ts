@@ -11,11 +11,17 @@ export class ApiContactRepository {
   /**
    * Submit contact form
    */
-  async createContact(data: CreateContactRequest): Promise<CreateContactResponse> {
+  async createContact(
+    data: CreateContactRequest,
+    options?: { signal?: AbortSignal }
+  ): Promise<CreateContactResponse> {
     const response = await apiClient.post<CreateContactResponse>(
       API_ENDPOINTS.CONTACTS.CREATE,
       data,
-      { skipAuth: true } // Contact form doesn't require authentication
+      {
+        skipAuth: true, // Contact form doesn't require authentication
+        signal: options?.signal,
+      }
     );
     return response;
   }

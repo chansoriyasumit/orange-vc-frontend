@@ -61,4 +61,12 @@ export const API_ENDPOINTS = {
   CONTACTS: {
     CREATE: "/contacts", // POST - Submit contact form
   },
+  CMS: {
+    /** Public read — same document as admin CMS home (no auth). */
+    HOME: "/cms/home",
+    /** Public read — same document as admin CMS about (no auth). */
+    ABOUT: "/cms/about",
+    /** Public read — blog page hero (badge, heading, subtitle). */
+    BLOG: "/cms/blog",
+  },
 } as const;
