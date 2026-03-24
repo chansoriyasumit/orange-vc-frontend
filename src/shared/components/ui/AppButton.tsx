@@ -155,6 +155,8 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
 
     const buttonClasses = cn(
       "font-semibold rounded-xl gap-2 transition-all duration-200",
+      "inline-flex items-center justify-center whitespace-nowrap",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
       sizeStyles[size],
       variantStyles[variant],
       fullWidth && "w-full",
@@ -164,7 +166,7 @@ export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
     // If href is provided, render as Link with button styling
     if (href) {
       return (
-        <Link href={href} className={cn(buttonClasses, "inline-flex items-center justify-center")}>
+        <Link href={href} className={buttonClasses}>
           {buttonContent}
         </Link>
       );
