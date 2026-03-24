@@ -4,4 +4,5 @@
  */
 
 export * from './ApiContactRepository';
+export * from './splitDisplayName';
 

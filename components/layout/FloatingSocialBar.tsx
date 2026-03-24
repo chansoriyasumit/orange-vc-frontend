@@ -32,11 +32,11 @@ const socialLinks = [
 ];
 
 export function FloatingSocialBar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <aside className="fixed inset-x-0 bottom-6 z-40" aria-label="Social media links">
-      <div className="container mx-auto px-6 lg:px-8">
+    <aside className="pointer-events-none fixed inset-x-0 bottom-6 z-40" aria-label="Social media links">
+      <div className="pointer-events-none container mx-auto px-6 lg:px-8">
         <div className="flex justify-end">
           <div className="flex flex-col items-end gap-3">
             <div
@@ -52,7 +52,7 @@ export function FloatingSocialBar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-11 w-11 items-center justify-center rounded-2xl border border-tomato/20 bg-white text-rich-black/70 shadow-lg shadow-rich-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-tomato/40 hover:text-tomato hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2"
+                  className="pointer-events-auto flex h-11 w-11 items-center justify-center rounded-2xl border border-tomato/20 bg-white text-rich-black/70 shadow-lg shadow-rich-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-tomato/40 hover:text-tomato hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2"
                 >
                   <Icon className="h-5 w-5" />
                 </a>
@@ -63,7 +63,7 @@ export function FloatingSocialBar() {
               aria-label={isOpen ? 'Close social media links' : 'Open social media links'}
               aria-expanded={isOpen}
               onClick={() => setIsOpen((prev) => !prev)}
-              className="flex h-12 w-12 items-center justify-center rounded-2xl border border-tomato/30 bg-tomato text-white shadow-lg shadow-rich-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-tomato-600 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2"
+              className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-tomato/30 bg-tomato text-white shadow-lg shadow-rich-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-tomato-600 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tomato focus-visible:ring-offset-2"
             >
               {isOpen ? <X className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
             </button>
