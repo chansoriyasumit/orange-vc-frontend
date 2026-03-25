@@ -5,7 +5,7 @@ import { useAuth } from '@/src/features/auth/lib/AuthContext';
 import { AppButton } from '@/src/shared/components/ui/AppButton';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, User, LogOut, LayoutDashboard, ChevronDown, Headset } from 'lucide-react';
+import { Menu, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   DropdownMenu,
@@ -86,7 +86,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -101,24 +101,12 @@ export function Header() {
               </Link>
             ))}
             
-            {/* Phone Number - Desktop Only */}
-            <a 
-              href="tel:+19096342861"
-              className={`flex items-center gap-2 text-sm font-medium transition-colors ml-2 pl-4 border-l border-rich-black/20 ${
-                scrolled || !isHomepage
-                  ? 'text-rich-black/70 hover:text-tomato'
-                  : 'text-rich-black/70 hover:text-tomato'
-              }`}
-              aria-label="Call us"
-            >
-              <Headset className="w-4 h-4" />
-              <span className="hidden lg:inline">+1 (909) 634-2861</span>
-            </a>
+            {/* Phone moved to Contact page */}
             
           </nav>
 
           {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             {!isLoading && (
               <>
                 {isAuthenticated ? (
@@ -176,7 +164,7 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetTrigger asChild className="md:hidden">
+          <SheetTrigger asChild className="lg:hidden">
             <AppButton variant="ghost" size="sm">
               <Menu className="w-6 h-6" />
             </AppButton>
