@@ -13,7 +13,7 @@ const contactLinks = [
   {
     href: 'tel:+19096342861',
     label: 'Call USA: +1 (909) 634-2861',
-    text: '+1 (909) 634-2861',
+    text: 'USA:+1 (909) 634-2861',
     accent: 'from-tomato/20 to-tomato/10',
   },
 ];
