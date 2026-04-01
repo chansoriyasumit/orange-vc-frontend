@@ -14,6 +14,8 @@ import {
   SubscriptionSearchResponse,
   ActiveSubscriptionResponse,
   SubscriptionByIdResponse,
+  VerifyPaymentData,
+  VerifyPaymentResponse,
   ISubscriptionRepository,
   SubscriptionSearchResult,
 } from '../types';
@@ -87,6 +89,17 @@ export class ApiSubscriptionRepository implements ISubscriptionRepository {
       data
     );
 
+    return response.data;
+  }
+
+  /**
+   * Verify Razorpay payment and finalize subscription.
+   */
+  async verifyPayment(data: VerifyPaymentData): Promise<Subscription> {
+    const response = await apiClient.post<VerifyPaymentResponse>(
+      API_ENDPOINTS.SUBSCRIPTIONS.VERIFY_PAYMENT,
+      data
+    );
     return response.data;
   }
 }

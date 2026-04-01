@@ -28,7 +28,7 @@ function ContactForm() {
                       Ready to Reclaim Your Time?
                     </h2>
                     <p className="text-rich-black/70 leading-relaxed mb-4 text-sm sm:text-base">
-                      Fill out the form and we&apos;ll get back to you within 24 working hours to discuss how we can support your goals.
+                      Fill out the form and we'll get back to you within 24 working hours to discuss how we can support your goals.
                     </p>
                     <p className="text-xs sm:text-sm text-rich-black/60 font-medium">
                       Orange Virtual Global Solutions Pvt Ltd
@@ -56,25 +56,10 @@ function ContactForm() {
                         <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-tomato" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="font-heading font-semibold text-rich-black mb-1 text-sm sm:text-base">India</h3>
-                        <a 
-                          href="tel:+919310557136"
-                          className="text-rich-black/70 hover:text-tomato transition-colors underline break-words break-all text-sm sm:text-base"
-                        >
-                          IND:91-9310557136
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3 sm:gap-4 p-4 sm:p-5 bg-white-smoke rounded-2xl border border-platinum/50">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-tomato/10 flex items-center justify-center flex-shrink-0">
-                        <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-tomato" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h3 className="font-heading font-semibold text-rich-black mb-1 text-sm sm:text-base">USA</h3>
+                        <h3 className="font-heading font-semibold text-rich-black mb-1 text-sm sm:text-base">Phone</h3>
                         <a 
                           href="tel:+19096342861"
-                          className="text-rich-black/70 hover:text-tomato transition-colors underline break-words break-all text-sm sm:text-base"
+                          className="text-rich-black/70 hover:text-tomato transition-colors underline break-words text-sm sm:text-base"
                         >
                           +1 (909) 634-2861
                         </a>
@@ -149,7 +134,7 @@ export default function ContactPage() {
           <div className="max-w-3xl mx-auto text-center">
             <div className="mb-6 py-2" />
             <h1 className="font-heading text-4xl md:text-6xl font-bold text-rich-black mb-6 leading-tight">
-              Let&apos;s Simplify{' '}
+              Let's Simplify{' '}
               <span className="text-tomato">Your Day</span>
             </h1>
             <p className="text-xl text-rich-black/70 max-w-3xl mx-auto leading-relaxed">

@@ -41,8 +41,5 @@ export interface VerifyPaymentData {
   razorpay_signature: string;
 }
 
-export type VerifyPaymentResponse = ApiResponse<{
-  subscription: Subscription;
-  verified: boolean;
-}>;
+export type VerifyPaymentResponse = ApiResponse<Subscription>;
 

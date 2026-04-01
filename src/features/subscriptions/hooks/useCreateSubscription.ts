@@ -65,12 +65,26 @@ export function useCreateSubscription(options?: UseCreateSubscriptionOptions) {
                 );
                 
                 console.log('Payment verification data:', verificationData);
-                
-                // Payment successful - backend will verify via webhook
-                // Subscription is now active
-                options?.onSuccess?.(subscription.id);
-                setIsCreating(false);
-                resolve(true);
+
+                // Verify payment on backend immediately as a reliable fallback
+                // in case webhook delivery is delayed or missed.
+                apiSubscriptionRepository
+                  .verifyPayment(verificationData)
+                  .then(() => {
+                    options?.onSuccess?.(subscription.id);
+                    setIsCreating(false);
+                    resolve(true);
+                  })
+                  .catch((verifyError) => {
+                    const verifyErrorMessage =
+                      verifyError instanceof Error
+                        ? verifyError.message
+                        : 'Payment verification failed';
+                    setError(verifyErrorMessage);
+                    options?.onError?.(new Error(verifyErrorMessage));
+                    setIsCreating(false);
+                    resolve(false);
+                  });
               },
               onDismiss: () => {
                 // User closed payment modal without completing

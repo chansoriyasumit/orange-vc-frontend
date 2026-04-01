@@ -57,6 +57,7 @@ export const API_ENDPOINTS = {
     ACTIVE: "/users/subscriptions/active", // GET - Get active subscription
     BY_ID: (id: string) => `/users/subscriptions/${id}`, // GET - Get subscription by ID
     CREATE: "/users/subscriptions", // POST - Subscribe to a plan
+    VERIFY_PAYMENT: "/users/subscriptions/verify-payment", // POST - Verify Razorpay payment
   },
   CONTACTS: {
     CREATE: "/contacts", // POST - Submit contact form

@@ -5,7 +5,7 @@ import { useAuth } from '@/src/features/auth/lib/AuthContext';
 import { AppButton } from '@/src/shared/components/ui/AppButton';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Menu, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react';
+import { Menu, User, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   DropdownMenu,
@@ -86,7 +86,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -100,13 +100,10 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            
-            {/* Phone moved to Contact page */}
-            
           </nav>
 
           {/* Desktop Auth Buttons */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3">
             {!isLoading && (
               <>
                 {isAuthenticated ? (
@@ -164,7 +161,7 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetTrigger asChild className="lg:hidden">
+          <SheetTrigger asChild className="md:hidden">
             <AppButton variant="ghost" size="sm">
               <Menu className="w-6 h-6" />
             </AppButton>
@@ -252,6 +249,7 @@ export function Header() {
           </Sheet>
         </div>
       </div>
+
     </header>
   );
 }
