@@ -3,7 +3,11 @@
  */
 
 import { Subscription } from './Subscription';
-import { CreateSubscriptionData, SubscriptionSearchParams } from './api';
+import {
+  CreateSubscriptionData,
+  SubscriptionSearchParams,
+  VerifyPaymentData,
+} from './api';
 import { PaginationInfo } from '@/src/shared/types/pagination';
 
 export interface SubscriptionSearchResult {
@@ -16,5 +20,6 @@ export interface ISubscriptionRepository {
   getActiveSubscription(): Promise<Subscription | null>;
   getSubscriptionById(id: string): Promise<Subscription | null>;
   createSubscription(data: CreateSubscriptionData): Promise<Subscription>;
+  verifyPayment(data: VerifyPaymentData): Promise<Subscription>;
 }
 

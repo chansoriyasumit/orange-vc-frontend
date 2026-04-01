@@ -6,7 +6,6 @@ import { AuthProvider } from '@/src/features/auth/lib/AuthContext';
 import { Toaster } from '@/components/ui/toaster';
 import { TawkToWidget } from '@/src/features/tasks/components/TawkToWidget';
 import { FloatingSocialBar } from '@/components/layout/FloatingSocialBar';
-import { FloatingContactBar } from '@/components/layout/FloatingContactBar';
 
 const manrope = Manrope({ 
   subsets: ['latin'],
@@ -72,7 +71,6 @@ export default function RootLayout({
         <AuthProvider>
           {children}
           <FloatingSocialBar />
-          <FloatingContactBar />
           <Toaster />
           <TawkToWidget />
         </AuthProvider>
