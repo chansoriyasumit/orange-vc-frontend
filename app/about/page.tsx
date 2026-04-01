@@ -63,9 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
     raw.length > 160 ? `${raw.slice(0, 157)}...` : raw || undefined;
   return {
     title: "About Us | OrangeVC - Virtual Assistant Services",
-    description:
-      description ??
-      "Learn about Orange Virtual Connect - 12+ years helping CEOs, entrepreneurs, and small businesses with professional virtual assistant services. Meet our expert team.",
+    ...(description ? { description } : {}),
   };
 }
 

@@ -6,8 +6,6 @@ import { getPublicBlogCms } from '@/src/lib/cms/getPublicBlogCms';
 import { BarChart3, Sparkles } from 'lucide-react';
 import type { Metadata } from 'next';
 
-export const revalidate = 60;
-
 export const metadata: Metadata = {
   title: 'Blog | OrangeVC - Insights & Tips for Virtual Assistance',
   description: 'Read insights on virtual assistants, remote work, productivity, and how OrangeVC helps businesses scale with verified professionals.',

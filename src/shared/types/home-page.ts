@@ -56,81 +56,67 @@ export function defaultEmptyHomePageCms(): HomePageCmsPayload {
   };
 }
 
-/** Static fallbacks when CMS fields are empty or the public API fails. */
-export const HOME_PAGE_CMS_FALLBACKS: HomePageCmsPayload = {
-  hero: {
-    badgeText: "Over 12 Years of Professional Experience",
-    headingPart1: "Free Your Time -",
-    headingPart2: "Orange Virtual Connect",
-    description:
-      "Running a business or managing a busy professional life doesn't have to be overwhelming. We take care of your daily to-dos — so you can focus on what truly matters.",
-    primaryButtonText: "Explore Services",
-    primaryButtonLink: "/services",
-    secondaryButtonText: "Subscribe Now",
-    secondaryButtonLink: "/pricing",
-  },
-  aboutUs: {
-    headingPart1: "A Trusted Partner in",
-    headingPart2: "Productivity",
-    description:
-      "At Orange Virtual Connect, we believe time is your most valuable asset — and we're here to help you make the most of it.",
-  },
-  whyChooseUs: {
-    mainHeading: "Why Orange Virtual Connect?",
-    subheading: "We don't just assist — we enable you to lead with ease",
-    description:
-      "With over 12 years of experience, Orange Virtual Connect delivers professional virtual assistant services that adapt to your unique business needs, helping you reclaim your time and focus on what matters most.",
-  },
-};
-
 function pick(primary: string, fallback: string): string {
   return primary?.trim() ? primary : fallback;
 }
 
+/**
+ * Ensures every CMS field exists. Empty or missing values stay empty — no
+ * marketing copy is injected when the API returns blanks or errors.
+ */
 export function mergeHomeCmsWithFallbacks(
   data: HomePageCmsPayload,
 ): HomePageCmsPayload {
-  const f = HOME_PAGE_CMS_FALLBACKS;
+  const empty = defaultEmptyHomePageCms();
   return {
     hero: {
-      badgeText: pick(data.hero.badgeText, f.hero.badgeText),
-      headingPart1: pick(data.hero.headingPart1, f.hero.headingPart1),
-      headingPart2: pick(data.hero.headingPart2, f.hero.headingPart2),
-      description: pick(data.hero.description, f.hero.description),
+      badgeText: pick(data.hero?.badgeText ?? "", empty.hero.badgeText),
+      headingPart1: pick(data.hero?.headingPart1 ?? "", empty.hero.headingPart1),
+      headingPart2: pick(data.hero?.headingPart2 ?? "", empty.hero.headingPart2),
+      description: pick(data.hero?.description ?? "", empty.hero.description),
       primaryButtonText: pick(
-        data.hero.primaryButtonText,
-        f.hero.primaryButtonText,
+        data.hero?.primaryButtonText ?? "",
+        empty.hero.primaryButtonText,
       ),
       primaryButtonLink: pick(
-        data.hero.primaryButtonLink,
-        f.hero.primaryButtonLink,
+        data.hero?.primaryButtonLink ?? "",
+        empty.hero.primaryButtonLink,
       ),
       secondaryButtonText: pick(
-        data.hero.secondaryButtonText,
-        f.hero.secondaryButtonText,
+        data.hero?.secondaryButtonText ?? "",
+        empty.hero.secondaryButtonText,
       ),
       secondaryButtonLink: pick(
-        data.hero.secondaryButtonLink,
-        f.hero.secondaryButtonLink,
+        data.hero?.secondaryButtonLink ?? "",
+        empty.hero.secondaryButtonLink,
       ),
     },
     aboutUs: {
-      headingPart1: pick(data.aboutUs.headingPart1, f.aboutUs.headingPart1),
-      headingPart2: pick(data.aboutUs.headingPart2, f.aboutUs.headingPart2),
-      description: pick(data.aboutUs.description, f.aboutUs.description),
+      headingPart1: pick(
+        data.aboutUs?.headingPart1 ?? "",
+        empty.aboutUs.headingPart1,
+      ),
+      headingPart2: pick(
+        data.aboutUs?.headingPart2 ?? "",
+        empty.aboutUs.headingPart2,
+      ),
+      description: pick(
+        data.aboutUs?.description ?? "",
+        empty.aboutUs.description,
+      ),
     },
     whyChooseUs: {
       mainHeading: pick(
-        data.whyChooseUs.mainHeading,
-        f.whyChooseUs.mainHeading,
+        data.whyChooseUs?.mainHeading ?? "",
+        empty.whyChooseUs.mainHeading,
       ),
       subheading: pick(
-        data.whyChooseUs.subheading,
-        f.whyChooseUs.subheading,
+        data.whyChooseUs?.subheading ?? "",
+        empty.whyChooseUs.subheading,
       ),
       description: pick(
-        data.whyChooseUs.description,
-        f.whyChooseUs.description,
+        data.whyChooseUs?.description ?? "",
+        empty.whyChooseUs.description,
       ),
     },
   };

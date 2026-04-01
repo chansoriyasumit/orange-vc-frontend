@@ -11,14 +11,15 @@ interface ApiEnvelope<T> {
 }
 
 /**
- * Server-only fetch for marketing about CMS. Revalidates every 60s.
- * On failure, returns merged empty payload (full static fallbacks).
+ * Server-only fetch for marketing about CMS.
+ * Uses no-store to avoid stale content in production caches.
+ * On failure or invalid payload, returns normalized empty CMS (no placeholder copy).
  */
 export async function getPublicAboutCms(): Promise<AboutPageCmsPayload> {
   const url = `${API_CONFIG.BASE_URL}${API_ENDPOINTS.CMS.ABOUT}`;
   try {
     const res = await fetch(url, {
-      next: { revalidate: 60 },
+      cache: "no-store",
       headers: { Accept: "application/json" },
     });
     if (!res.ok) {
